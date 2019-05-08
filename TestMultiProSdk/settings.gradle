@@ -1,0 +1,8 @@
+def modules = [
+        ':app', ':sdkLibOne', ':sdkLibTwo', ':sdklibs'
+]
+
+modules.each { module ->
+    include module
+    println("settings -> include $module")
+}

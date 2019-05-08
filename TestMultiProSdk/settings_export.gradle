@@ -1,0 +1,17 @@
+def modules = [
+        ':app', ':sdkLibOne', ':sdkLibTwo', ':sdklibs'
+]
+
+apply from: "./compile_config.gradle"
+
+/**
+ * 与settings.gradle基本一致，被主工程使用：
+ * apply from: "./TestMultiPro/settings_export.gradle"
+ */
+TestMultiProSdkCompileSourceOrAar({
+    modules.each { module ->
+        include ":TestMultiProSdk$module"
+        println("[TestMultiPro]settings_export -> include :TestMultiProSdk$module")
+    }
+})
+

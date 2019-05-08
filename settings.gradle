@@ -1,0 +1,4 @@
+include ':app', ':HostLibOne', ':hostLibTwo'
+
+apply from: "./TestMultiProSdk/compile_config.gradle"
+apply from: "./TestMultiProSdk/settings_export.gradle"

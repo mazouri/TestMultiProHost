@@ -1,0 +1,66 @@
+import java.nio.file.FileVisitResult
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.SimpleFileVisitor
+import java.nio.file.attribute.BasicFileAttributes
+
+/**
+ * TestMultiProSdk 依赖开关。true: 源码依赖，false: 不依赖。
+ */
+ext.TestMultiProSdkCompileSource = true
+
+/**
+ * 被主工程源码依赖时，所有子module加前缀 ":TestMultiProSdk"。单独作为根工程时不加。
+ * @param modulePath 子module名字，如 ":lib-base"
+ */
+ext.TestMultiProSdkPath = { String modulePath ->
+    if (getRootProject().name.equals("TestMultiProSdk")) {
+        return modulePath
+    }
+
+    if (TestMultiProSdkCompileSource) {
+        return ":TestMultiProSdk$modulePath"
+    } else {
+        return modulePath
+    }
+}
+
+/**
+ * 源码依赖 or Aar依赖
+ * @param onCompileSource: 源码依赖回调
+ * @param onCompileAar: Aar依赖回调
+ */
+ext.TestMultiProSdkCompileSourceOrAar = { Closure onCompileSource ->
+    if (getRootProject().name.equals("TestMultiProSdk")) {
+        throw IllegalStateException("Root project is TestMultiProSdk")
+    }
+    if (TestMultiProSdkCompileSource) {
+        onCompileSource()
+    }
+}
+
+/**
+ * 遍历文件夹 moduleName/ , 匹配所有以 targetPostfix 为后缀的文件，并回调 onVisitTarget(file)
+ * @param moduleName: 目录名
+ * @param targetPostfix: 目标文件后缀名
+ * @param onVisitTarget: 回调
+ */
+ext.visitFileTree = { String moduleName, String targetPostfix, Closure onVisitTarget ->
+    File dir = project.rootDir
+    String targetDirPath = ""
+    if (project.getRootProject().name.equals(moduleName)) {
+        targetDirPath = dir.getAbsolutePath()
+    } else {
+        targetDirPath = dir.getAbsolutePath() + "/$moduleName"
+    }
+
+    Files.walkFileTree(Paths.get(targetDirPath), new SimpleFileVisitor<java.nio.file.Path>() {
+        @Override
+        FileVisitResult visitFile(java.nio.file.Path path, BasicFileAttributes basicFileAttributes) throws IOException {
+            if (path.toString().endsWith(targetPostfix)) {
+                onVisitTarget(path.toFile())
+            }
+            return FileVisitResult.CONTINUE
+        }
+    })
+}

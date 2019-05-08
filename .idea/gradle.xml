@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/HostLibOne" />
+            <option value="$PROJECT_DIR$/TestMultiProSdk" />
+            <option value="$PROJECT_DIR$/TestMultiProSdk/app" />
+            <option value="$PROJECT_DIR$/TestMultiProSdk/sdkLibOne" />
+            <option value="$PROJECT_DIR$/TestMultiProSdk/sdkLibTwo" />
+            <option value="$PROJECT_DIR$/TestMultiProSdk/sdklibs" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/hostLibTwo" />
+          </set>
+        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
